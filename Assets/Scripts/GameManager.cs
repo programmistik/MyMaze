@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -11,17 +12,27 @@ public class GameManager : MonoBehaviour {
 
 	private Player playerInstance;
 
+
 	private void Start () {
+
 		StartCoroutine(BeginGame());
 	}
 	
 	private void Update () {
-		if (Input.GetKeyDown(KeyCode.Space)) {
+
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
 			RestartGame();
+
+		}
+		else if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			SceneManager.LoadScene("Menu");
 		}
 	}
 
 	private IEnumerator BeginGame () {
+
 		Camera.main.clearFlags = CameraClearFlags.Skybox;
 		Camera.main.rect = new Rect(0f, 0f, 1f, 1f);
 		mazeInstance = Instantiate(mazePrefab) as Maze;
@@ -33,6 +44,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void RestartGame () {
+
 		StopAllCoroutines();
 		Destroy(mazeInstance.gameObject);
 		if (playerInstance != null) {
@@ -40,4 +52,6 @@ public class GameManager : MonoBehaviour {
 		}
 		StartCoroutine(BeginGame());
 	}
+
+    
 }
